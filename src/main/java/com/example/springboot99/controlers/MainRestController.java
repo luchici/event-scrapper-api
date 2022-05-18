@@ -21,7 +21,7 @@ public class MainRestController {
     private CityService theCityService;
     private HttpServletRequest httpServletRequest;
 
-    @GetMapping("/test")
+    @GetMapping()
     public String test() {
         return "This is a test   " + httpServletRequest.getRemoteAddr() +
                 "  ----------   " + httpServletRequest.getRemoteHost();
