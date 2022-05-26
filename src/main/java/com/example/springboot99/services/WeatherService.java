@@ -4,13 +4,13 @@ import com.example.springboot99.entity.City;
 import com.example.springboot99.entity.Weather;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public interface WeatherService {
 
     void updateWeatherAllCities();
-    void updateWeatherByCityName(City city);
+    Weather updateWeatherByCityName(City city);
+
+    Weather updateWeatherByCityName(String cityName);
 
 //    List<Weather> getWeatherByTempValueAndDate(Integer tempValue, String date);
 

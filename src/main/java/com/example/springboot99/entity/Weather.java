@@ -3,6 +3,7 @@ package com.example.springboot99.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,7 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Entity(name = "weather_list")
+@Entity(name = "weather")
+@Data
 public class Weather {
 
     @Id
@@ -23,12 +25,11 @@ public class Weather {
     private int bodyFeels;
     private int tempMin;
     private int tempMax;
-    private LocalDate localDate;
+    private LocalDate localDate = LocalDate.now();
     @JsonProperty("name")
     private String cityName;
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "city_id")
+    @OneToOne(mappedBy = "weather",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private City city;
 
     @JsonProperty("weather")
@@ -49,74 +50,14 @@ public class Weather {
         return d.intValue();
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getTemp() {
-        return temp;
-    }
-
-    public void setTemp(int temp) {
-        this.temp = temp;
-    }
-
-    public int getBodyFeels() {
-        return bodyFeels;
-    }
-
-    public void setBodyFeels(int bodyFeels) {
-        this.bodyFeels = bodyFeels;
-    }
-
-    public int getTempMin() {
-        return tempMin;
-    }
-
-    public void setTempMin(int tempMin) {
-        this.tempMin = tempMin;
-    }
-
-    public int getTempMax() {
-        return tempMax;
-    }
-
-    public void setTempMax(int tempMax) {
-        this.tempMax = tempMax;
-    }
-
-    public LocalDate getLocalDate() {
-        return localDate;
-    }
-
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public void setCity(City city) {
+        city.setWeather(this);
+        this.city = city;
     }
 
     @JsonBackReference
     public City getCity() {
         return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public String getCityName() {
-        return cityName;
-    }
-
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
     }
 
     @Override
@@ -125,9 +66,11 @@ public class Weather {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", temp=" + temp +
+                ", bodyFeels=" + bodyFeels +
+                ", tempMin=" + tempMin +
+                ", tempMax=" + tempMax +
                 ", localDate=" + localDate +
                 ", cityName='" + cityName + '\'' +
-                ", city=" + city +
                 '}';
     }
 }

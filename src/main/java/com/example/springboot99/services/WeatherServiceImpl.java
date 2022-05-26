@@ -8,8 +8,8 @@ import com.example.springboot99.utility.HttpRequestWeatherAPI;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -25,85 +25,53 @@ public class WeatherServiceImpl implements WeatherService{
         date = LocalDate.now();
         return date;
     }
-    public static LocalDate parseDate(String dayAndMonth){
-        String procesDate = dayAndMonth+".2022";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate localDate =
-                LocalDate.parse(procesDate, formatter);
-        return localDate;
-    }
 
 //    TODO: Update all the cities, need to run daily at the same hour
 
-
-//    public void updateWeatherByCityName(String cityName){
-//        System.out.println("------------------------We are in updateWeatherByCityName ------------------------------------------");
-//        updateDate();
-//        City localCity = cityRepository.findByCityNameIgnoreCase(cityName).get(0);
-//        Weather weatherToday = HttpRequestWeatherAPI.getTheWeather(localCity);
-//        System.out.println(localCity);
-//        System.out.println(weatherToday);
-//
-//        localCity.addWeatherRaport(weatherToday,date);
-//
-//        cityRepository.saveAndFlush(localCity);
-//        weatherRepository.saveAndFlush(weatherToday);
-////        return city;
-//    }
+    @PostConstruct
+    private void intialUpdate(){
+        updateWeatherAllCities();
+    }
 
     @Override
-    public void updateWeatherByCityName(City city){
-        System.out.println("------------------------We are in updateWeatherByCityName ------------------------------------------");
+    public Weather updateWeatherByCityName(String cityName){
+       updateDate();
+        City localCity = cityRepository.findByCityNameIgnoreCase(cityName).get(0);
+        Weather weatherToday = localCity.getWeather();
+        if(!(weatherToday.getLocalDate().equals(date))){
+            System.out.println(weatherToday.equals(date));
+            System.out.println("City name is " + localCity.getCityName() + " weather date is " + localCity.getWeather().getLocalDate());
+            System.out.println("System Local date is " + date);
+            System.out.println("----------------------------------We are in updateWeatherByCityName ------------------------------------------");
+            System.out.println("----------------------------------We are in updateWeatherByCityName ------------------------------------------");
+            weatherToday = HttpRequestWeatherAPI.getTheWeather(localCity);
+            localCity.setWeather(weatherToday);
+            weatherRepository.saveAndFlush(weatherToday);}
+        return weatherToday;
+    }
+
+    @Override
+    public Weather updateWeatherByCityName(City city){
         updateDate();
-        Weather weatherToday = HttpRequestWeatherAPI.getTheWeather(city);
+        Weather weatherToday = city.getWeather();
 
-//        System.out.println(city);
-//        System.out.println(weatherToday);
-
-        city.addWeatherRaport(weatherToday,date);
-
-        cityRepository.saveAndFlush(city);
-//        weatherRepository.saveAndFlush(weatherToday);
-//        return city;
-
+        if(!weatherToday.getLocalDate().equals(date)){
+            System.out.println(weatherToday.equals(date));
+            System.out.println("City name is " + city.getCityName() + " weather date is " + city.getWeather().getLocalDate());
+            System.out.println("System Local date is " + date);
+            System.out.println("----------------------------We are in updateWeatherByCityName ------------------------------------------");
+            System.out.println("----------------------------We are in updateWeatherByCityName ------------------------------------------");
+            weatherToday = HttpRequestWeatherAPI.getTheWeather(city);
+            city.setWeather(weatherToday);
+            weatherRepository.saveAndFlush(weatherToday);}
+        return weatherToday;
     }
 
     @Override
     public void updateWeatherAllCities(){
-        System.out.println("------------------------We are in updateWeatherAllCities ------------------------------------------");
         List<City> cities = cityRepository.findAll();
         for (City city : cities) {
             updateWeatherByCityName(city);
         }
     }
-
-    //  TODO: Add the case when no temperature exists
-//    @Override
-//    public List<Weather> getWeatherByTempValueAndDate(Integer tempValue, String date) {
-//        System.out.println("------------------------We are in getWeatherByTempValueAndDate ------------------------------------------");
-//        LocalDate localDate = parseDate(date);
-//        return weatherRepository.findByBodyFeelsAndLocalDate(tempValue, localDate);
-//    }
-//
-//    //  TODO: Add the case when no temperature exists
-//    public List<Weather> getWeatherByTempValue(Integer tempValue) {
-//        System.out.println("------------------------We are in getWeatherByTempValue ------------------------------------------");
-//        return weatherRepository.findByBodyFeels(tempValue);
-//    }
-//
-//    //  TODO: Add the case when no descrption exists
-//    public List<Weather> getWeatherByDescriptionAndLocalDate(String description, String date) {
-//        System.out.println("------------------------We are in getWeatherByDescriptionAndLocalDate ------------------------------------------");
-//
-//        LocalDate localDate = parseDate(date);
-//        return weatherRepository.findByDescriptionAndLocalDate(description, localDate);
-//    }
-//
-//    //  TODO: Add the case when no descrption exists
-//    public List<Weather> getWeatherByDescription(String description) {
-//        System.out.println("------------------------We are in getWeatherByDescription ------------------------------------------");
-//
-//        date = date == null ? updateDate() : date;
-//        return weatherRepository.findByDescription(description);
-//    }
-}
+    }

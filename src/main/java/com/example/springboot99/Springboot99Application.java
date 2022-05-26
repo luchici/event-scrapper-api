@@ -9,6 +9,4 @@ public class Springboot99Application {
     public static void main(String[] args) {
         SpringApplication.run(Springboot99Application.class, args);
     }
-
-//    fdasdfasasd
 }

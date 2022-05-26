@@ -11,4 +11,6 @@ public interface CityService {
     City getCityByCityName(String cityName);
 
     List<City> getAllCtities();
+
+    List<City> getLastTenCities();
 }

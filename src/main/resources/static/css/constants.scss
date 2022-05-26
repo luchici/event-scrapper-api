@@ -1,0 +1,21 @@
+// COLORS
+$backgroundColor: #E6F0EE;
+$mainColor: #D9E8E5;
+$secondColor: #016FB9;
+$thirdColor: #a512c5;
+$shadowColor: rgb(216, 214, 214);
+
+@mixin basic-link {
+  text-decoration: none;
+  color: $secondColor;
+  &:hover {
+    color: $thirdColor;
+    transform: scale(1.1);
+  }
+}
+
+@mixin specialText {
+  color: $thirdColor;
+  text-decoration: underline;
+  
+}

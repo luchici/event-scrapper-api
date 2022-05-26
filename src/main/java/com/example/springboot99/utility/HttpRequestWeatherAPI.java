@@ -16,13 +16,14 @@ import java.util.List;
 
 public class HttpRequestWeatherAPI {
 
+//    TODO: HIDE THE API KEY
     private static final String API = "6cabf84a4fba39918788106bb0cea492";
     private static ObjectMapper mapper = new ObjectMapper();
     private static LocalDate date = LocalDate.now();
 
     public static City getTheCity(String cityName){
         String cityNameProcess = cityName.substring(0,1).toUpperCase()+cityName.substring(1).toLowerCase();
-        String theURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityNameProcess + ",RO&limit=3&appid=" + API;
+        String theURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityNameProcess + ",RO&limit=1&appid=" + API;
 
         HttpResponse<String> response = httpRequestAPI(theURL);
         List<City> cities = null;
