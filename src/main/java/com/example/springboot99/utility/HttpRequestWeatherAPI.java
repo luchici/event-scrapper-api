@@ -5,6 +5,7 @@ import com.example.springboot99.entity.Weather;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.thymeleaf.util.NumberPointType;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,14 +19,16 @@ public class HttpRequestWeatherAPI {
 
 //    TODO: HIDE THE API KEY
     private static final String API = "6cabf84a4fba39918788106bb0cea492";
-    private static ObjectMapper mapper = new ObjectMapper();
-    private static LocalDate date = LocalDate.now();
+    private static final ObjectMapper  mapper = new ObjectMapper();
+    private static final LocalDate date = LocalDate.now();
 
     public static City getTheCity(String cityName){
         String cityNameProcess = cityName.substring(0,1).toUpperCase()+cityName.substring(1).toLowerCase();
         String theURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityNameProcess + ",RO&limit=1&appid=" + API;
 
         HttpResponse<String> response = httpRequestAPI(theURL);
+        System.out.println("-----------------------------------------REQUEST FOR CITY-----------------------------------------");
+        System.out.println(cityName);
         List<City> cities = null;
         try {
             cities = mapper.readValue(response.body(), new TypeReference<List<City>>() {            });
@@ -33,7 +36,12 @@ public class HttpRequestWeatherAPI {
             e.printStackTrace();
             System.out.println("Parsing error, the reposne is not good");
             System.out.println("Error parsing for City");
+        } catch (NullPointerException e) {
+            //        TODO: ERROR - NO CITY RETURNED
+            System.out.println("+++++++++++++++++++++++++++++++++++++++"+cityName+"++++++++++++++++++++++++++++++++++++++++++++++++++");
+            System.out.println("+++++++++++++++++++++++++++++++++++++++No respose body++++++++++++++++++++++++++++++++++++++++++++++++++");
         }
+
         City localCity = cities.get(0);
         localCity.setCityName(cityNameProcess);
         return localCity;
@@ -42,15 +50,21 @@ public class HttpRequestWeatherAPI {
     public static Weather getTheWeather(City city){
         String theURL = "https://api.openweathermap.org/data/2.5/weather?lat="+city.getLat()+"&lon="+city.getLon()+"&appid="+API;
         HttpResponse<String> response = httpRequestAPI(theURL);
+        System.out.println("-----------------------------------------REQUEST FOR WEATHER-----------------------------------------");
+        System.out.println(city.getCityName());
         Weather weatherToday = null;
         try {
             weatherToday = mapper.readValue(response.body(), Weather.class);
+            weatherToday.setLocalDate(date);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             System.out.println("Parsing error, the reposne is not good");
             System.out.println("Error parsing for Weather");
+        } catch (NullPointerException e) {
+            System.out.println("No response back");
+            e.printStackTrace();
         }
-        weatherToday.setLocalDate(date);
+
         return weatherToday;
     }
 
@@ -62,8 +76,7 @@ public class HttpRequestWeatherAPI {
                     .header("accept", "application/json")
                     .uri(URI.create(theURL))
                     .build();
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            return response;
+            return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {
             System.out.println("1.API Key is expired," +
                     "\n2.cityNameProcess is wrong" +

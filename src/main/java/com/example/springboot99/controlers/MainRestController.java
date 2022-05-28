@@ -27,12 +27,16 @@ public class MainRestController {
 
     @GetMapping("/cities")
     public List<City> getAllCities() {
+        System.out.println("here we are");
         return theCityService.getAllCtities();
     }
 
     @GetMapping("/weather/{cityName}")
     public City getWeatherByCityName(@PathVariable String cityName){
-        theWeatherService.updateWeatherByCityName(theCityService.getCityByCityName(cityName));
+        System.out.println("---------------------we are inside getWeatherByCityName ---------------------------------");
+        City localCity = theCityService.getCityByCityName(cityName);
+        System.out.println(localCity.getCityName());
+        theWeatherService.updateWeatherByCity(localCity);
         return theCityService.getCityByCityName(cityName);
     }
 

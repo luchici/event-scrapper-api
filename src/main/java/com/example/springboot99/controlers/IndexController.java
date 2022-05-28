@@ -22,8 +22,6 @@ public class IndexController {
         List<City> cityList = cityService.getLastTenCities();
         model.addAttribute("cityList", cityList);
         int cityListSize = cityList.size()-1;
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(cityListSize);
         if(cityName == null) {
             model.addAttribute("theCity", cityList.get(cityListSize));
             model.addAttribute("theWeather", cityList.get(cityListSize).getWeather());
@@ -39,8 +37,6 @@ public class IndexController {
 
     @PostMapping({"/","/{cityName}"})
     public String getCityName(@RequestParam String cityName, Model model) {
-        System.out.println("77777777777777777777777777777777777777777777777777777777777777777");
-        System.out.println(cityName);
         City theCity = cityService.getCityByCityName(cityName);
         weatherService.updateWeatherByCityName(cityName);
         model.addAttribute("theCity", theCity);

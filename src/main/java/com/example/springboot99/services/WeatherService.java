@@ -8,15 +8,8 @@ import org.springframework.stereotype.Service;
 public interface WeatherService {
 
     void updateWeatherAllCities();
-    Weather updateWeatherByCityName(City city);
+    Weather updateWeatherByCity(City city);
 
     Weather updateWeatherByCityName(String cityName);
-
-//    List<Weather> getWeatherByTempValueAndDate(Integer tempValue, String date);
-
-//    public List<Weather> getWeatherByTempValueAndDate(Integer tempValue, String date);
-//    public List<Weather> getWeatherByTempValue(Integer tempValue);
-//    public List<Weather> getWeatherByDescriptionAndLocalDate(String description, String date);
-//    public List<Weather> getWeatherByDescription(String description);
 
 }

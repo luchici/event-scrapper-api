@@ -50,7 +50,6 @@ public class CityServiceImpl implements CityService {
     @Override
     public List<City> getLastTenCities() {
         List<City> list = theCityRepository.findAll();
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println(list.size());
         List<City> tenCities = new ArrayList<>();
         if (list.size() > 5){
