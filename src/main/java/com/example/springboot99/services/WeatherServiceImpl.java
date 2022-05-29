@@ -4,7 +4,7 @@ import com.example.springboot99.entity.City;
 import com.example.springboot99.entity.Weather;
 import com.example.springboot99.repository.CityRepository;
 import com.example.springboot99.repository.WeatherRepository;
-import com.example.springboot99.utility.HttpRequestWeatherAPI;
+import com.example.springboot99.utility.HttpRequestOpenWeatherAPI;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +25,6 @@ public class WeatherServiceImpl implements WeatherService{
         date = LocalDate.now();
     }
 
-//    TODO: Update all the cities, need to run daily at the same hour
-
     @PostConstruct
     private void intialUpdate(){
         updateWeatherAllCities();
@@ -34,7 +32,7 @@ public class WeatherServiceImpl implements WeatherService{
 
     @Override
     public Weather updateWeatherByCityName(String cityName){
-        City city = cityRepository.findByCityNameIgnoreCase(cityName).get(0);
+        City city = cityRepository.findByCityNameIgnoreCase(cityName);
         return updateWeatherByCity(city);
     }
 
@@ -42,10 +40,9 @@ public class WeatherServiceImpl implements WeatherService{
     public Weather updateWeatherByCity(City city){
         updateDate();
         Weather weatherToday = city.getWeather();
-        if(!weatherToday.getLocalDate().equals(date)){
-            weatherToday = HttpRequestWeatherAPI.getTheWeather(city);
+        if(weatherToday == null || !weatherToday.getLocalDate().equals(date)){
+            weatherToday = HttpRequestOpenWeatherAPI.getTheWeather(city);
             city.setWeather(weatherToday);
-
             cityRepository.save(city);}
         return weatherToday;
     }

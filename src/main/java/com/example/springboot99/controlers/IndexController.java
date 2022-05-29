@@ -6,7 +6,10 @@ import com.example.springboot99.services.WeatherService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -17,41 +20,41 @@ public class IndexController {
     private CityService cityService;
     private WeatherService weatherService;
 
-    @GetMapping({"/","/{cityName}"})
-    public String getAllCities(@PathVariable(required = false) String cityName, Model model){
-        List<City> cityList = cityService.getLastTenCities();
-        model.addAttribute("cityList", cityList);
+    @GetMapping("/")
+    private String getCityList(Model model){
+        List<City> cityList = cityService.getLastCities();
         int cityListSize = cityList.size()-1;
-        if(cityName == null) {
-            model.addAttribute("theCity", cityList.get(cityListSize));
-            model.addAttribute("theWeather", cityList.get(cityListSize).getWeather());
-        } else {
-            City theCity = cityService.getCityByCityName(cityName);
-            weatherService.updateWeatherByCityName(cityName);
-            model.addAttribute("theCity", theCity);
-            model.addAttribute("theWeather", theCity.getWeather());
-
-        }
+        model.addAttribute("theCity", cityList.get(cityListSize));
+        model.addAttribute("theWeather", cityList.get(cityListSize).getWeather());
+        model.addAttribute("cityList", cityList);
         return "homepage";
     }
 
-    @PostMapping({"/","/{cityName}"})
-    public String getCityName(@RequestParam String cityName, Model model) {
+    @GetMapping("/{cityName}")
+    public String getCityByCityName(@PathVariable String cityName, Model model) {
         City theCity = cityService.getCityByCityName(cityName);
-        weatherService.updateWeatherByCityName(cityName);
+        weatherService.updateWeatherByCity(theCity);
+        List<City> cityList = cityService.getLastCities();
         model.addAttribute("theCity", theCity);
         model.addAttribute("theWeather", theCity.getWeather());
-//        System.out.println("--------------------------------------");
-//        System.out.println(theCity.getWeather());
-
-        List<City> cityList = cityService.getLastTenCities();
         model.addAttribute("cityList", cityList);
         return "homepage";
+    }
+
+    @PostMapping("/{cityName}")
+    public String postCityByCityName(@RequestParam String cityName, Model model) {
+        cityName = cityName.trim();
+        if(!cityService.checkCityName(cityName).isEmpty()) {
+            model.addAttribute("message", cityService.checkCityName(cityName));
+            return getCityList(model);
+        }
+        return getCityByCityName(cityName, model);
     }
 
     @GetMapping("/api")
     public String getApiPage() {
         return "api";
     }
+
 
 }

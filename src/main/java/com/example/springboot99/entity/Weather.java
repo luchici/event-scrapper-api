@@ -26,6 +26,7 @@ public class Weather {
     private int tempMin;
     private int tempMax;
     private LocalDate localDate = LocalDate.now();
+
     @JsonProperty("name")
     private String cityName;
     @OneToOne(mappedBy = "weather",
@@ -48,11 +49,6 @@ public class Weather {
     private int tempConvertions(Double temp) {
         Double d = temp - 273.5;
         return d.intValue();
-    }
-
-    public void setCity(City city) {
-        city.setWeather(this);
-        this.city = city;
     }
 
     @JsonBackReference

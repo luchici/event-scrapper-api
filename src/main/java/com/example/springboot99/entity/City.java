@@ -24,6 +24,7 @@ public class City {
     private double lon;
 
     private LocalDateTime creationDateTime = LocalDateTime.now();
+    private LocalDateTime accessDateTime = LocalDateTime.now();;
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinColumn(name= "weather_id")
@@ -36,6 +37,7 @@ public class City {
 
     public void setWeather(Weather weather) {
         this.weather = weather;
+        weather.setCity(this);
     }
 
     @Override

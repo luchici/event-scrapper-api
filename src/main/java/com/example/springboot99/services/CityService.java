@@ -12,5 +12,10 @@ public interface CityService {
 
     List<City> getAllCtities();
 
-    List<City> getLastTenCities();
+    List<City> getLastCities();
+
+    String checkCityName(String cityName);
+
+    void deleteCityByCityName(String cityName);
+
 }

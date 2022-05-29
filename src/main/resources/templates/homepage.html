@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home page</title>
-<!--     <link rel="stylesheet" th:href="@{/css/test.css}">-->
-     <link rel="stylesheet" th:href="@{/css/homepage.css}">
-    <!-- <link rel="stylesheet" href="/static/css/style.css"> -->
-<!--    <link rel="stylesheet" href="css/homepage.css">-->
+    <link rel="stylesheet" th:href="@{/css/homepage.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -34,7 +31,7 @@
       <div class="sidebar">
         <h3 class="sidebar-title">Cities</h3>
         <div class="button-container" th:each="city:${cityList}">
-          <form th:action="@{'/' + ${city.cityName}+'/'}" class="form-button">
+          <form th:action="@{'/' + ${city.cityName}}" class="form-button">
             <button class="button-8" role="button" th:text="${city.cityName}" type="submit">...</button>
           </form>
         </div>
@@ -45,6 +42,7 @@
         <form th:action="@{/**}" method="post" class="searchbox-container">
           <input type="text" th:value="${cityName}" name="cityName" placeholder="What city?" class="search-box">
         </form>
+        <p th:text="${message}" class="special-text error-message"></pth>
       </div>
       <div class="display-result">
         <p class="par">Weather in
