@@ -89,10 +89,12 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void deleteCityByCityName(String cityName) {
+    public City deleteCityByCityName(String cityName) {
+        City city = null;
         if (checkCityName(cityName).isEmpty()) {
-            City city = theCityRepository.findByCityNameIgnoreCase(cityName);
+            city = theCityRepository.findByCityNameIgnoreCase(cityName);
             theCityRepository.delete(city);
         } else throw new CityNotFoundException(checkCityName(cityName));
+        return city;
     }
 }

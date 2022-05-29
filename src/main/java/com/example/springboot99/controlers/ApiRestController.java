@@ -47,8 +47,8 @@ public class ApiRestController {
 
 //    TODO: add delete city controler
     @DeleteMapping("/city/{cityName}")
-    public void deleteCityByCityName(@PathVariable String cityName){
-        theCityService.deleteCityByCityName(cityName);
+    public City deleteCityByCityName(@PathVariable String cityName){
+        return theCityService.deleteCityByCityName(cityName);
     }
 
     @ExceptionHandler

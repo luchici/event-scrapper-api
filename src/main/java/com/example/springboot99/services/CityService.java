@@ -16,6 +16,6 @@ public interface CityService {
 
     String checkCityName(String cityName);
 
-    void deleteCityByCityName(String cityName);
+    City deleteCityByCityName(String cityName);
 
 }
