@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+
+  <link href="https://unpkg.com/sanitize.css" rel="stylesheet">
+  <link href="https://unpkg.com/sanitize.css/typography.css" rel="stylesheet">
+  <link href="https://unpkg.com/sanitize.css/forms.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700;900 &display=swap" rel="stylesheet">
+
+  <title>Go back home</title>
+</head>
+<body>
+  <div class="container">
+    <div class="small-container">
+    <p>Something went wrong!</p>
+    <a href="/" class="button">Go back to homepage</a>
+    </div>
+    <table>
+      <tr>
+          <td>Date</td>
+          <td th:text="${timestamp}"/>
+      </tr>
+      <tr>
+          <td>Path</td>
+          <td th:text="${path}"/>
+      </tr>
+      <tr>
+          <td>Error</td>
+          <td th:text=" ${error}"/>
+      </tr>
+      <tr>
+          <td>Status</td>
+          <td th:text="${status}"/>
+      </tr>
+<!--      <tr>-->
+<!--          <td>Message</td>-->
+<!--          <td th:text="${message}"/>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--          <td>Exception</td>-->
+<!--          <td th:text="${exception}"/>-->
+<!--      </tr>-->
+    </table>
+  </div>
+</body>
+</html>

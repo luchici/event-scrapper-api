@@ -1,0 +1,90 @@
+$backgroundColor: #E6F0EE;
+$mainColor: #D9E8E5;
+$secondColor: #016FB9;
+$thirdColor: #a512c5;
+$shadowColor: rgb(159, 148, 148);
+
+body{
+  background-color:$backgroundColor;
+}
+
+.container{
+  width: 75%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  column-gap: 8%;
+  margin-top: 5%;
+}
+
+.container p{
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.special-text{
+  color: $thirdColor;
+}
+
+.small-container{
+  display: flex;
+  flex-direction:column;
+  margin-top: 8%;
+  margin-right: 4%;
+  text-align: center;
+  gap: 8%;
+}
+
+.button{
+  margin-top: 2%;
+  background-color: $secondColor;
+  border-radius: 15px;
+  font-size: 2rem;
+  font-weight: 700;
+  box-shadow: 10px 10px $shadowColor;
+  text-decoration: none;
+  color: #D9E8E5;
+  padding: 2% 4% 2% 5%;
+  flex-shrink: 1;
+  flex-grow: 0;
+  text-align: center;
+}
+
+.button:hover {
+  transform: scale(1.1);
+}
+
+.button:active {
+  transform: scale(1);
+}
+table{
+  grid-column: 2;
+  margin-top: 5%;
+  font-size: 1.5rem;
+
+}
+
+table, th, td {
+  border: 1px solid black;
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 10rem;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  html {
+    font-size: 12rem;
+  }
+
+  .container{
+    display: flex;
+    flex-direction: column;
+    gap: 8%;
+  }
+
+}

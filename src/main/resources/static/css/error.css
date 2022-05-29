@@ -1,0 +1,102 @@
+body {
+  background-color: #E6F0EE;
+}
+
+.container {
+  width: 75%;
+  margin: auto;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 2fr 3fr;
+      grid-template-columns: 2fr 3fr;
+  -webkit-column-gap: 8%;
+          column-gap: 8%;
+  margin-top: 5%;
+}
+
+.container p {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.special-text {
+  color: #a512c5;
+}
+
+.small-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-top: 8%;
+  margin-right: 4%;
+  text-align: center;
+  gap: 8%;
+}
+
+.button {
+  margin-top: 2%;
+  background-color: #016FB9;
+  border-radius: 15px;
+  font-size: 2rem;
+  font-weight: 700;
+  -webkit-box-shadow: 10px 10px #9f9494;
+          box-shadow: 10px 10px #9f9494;
+  text-decoration: none;
+  color: #D9E8E5;
+  padding: 2% 4% 2% 5%;
+  -ms-flex-negative: 1;
+      flex-shrink: 1;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  text-align: center;
+}
+
+.button:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.button:active {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+table {
+  grid-column: 2;
+  margin-top: 5%;
+  font-size: 1.5rem;
+}
+
+table, th, td {
+  border: 1px solid black;
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 10rem;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  html {
+    font-size: 12rem;
+  }
+  .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 8%;
+  }
+}
+/*# sourceMappingURL=error.css.map */

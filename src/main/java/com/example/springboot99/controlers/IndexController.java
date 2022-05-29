@@ -1,6 +1,7 @@
 package com.example.springboot99.controlers;
 
 import com.example.springboot99.entity.City;
+import com.example.springboot99.exception.CityNotFoundException;
 import com.example.springboot99.services.CityService;
 import com.example.springboot99.services.WeatherService;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class IndexController {
     private WeatherService weatherService;
 
     @GetMapping("/")
-    private String getCityList(Model model){
+    public String getCityList(Model model){
         List<City> cityList = cityService.getLastCities();
         int cityListSize = cityList.size()-1;
         model.addAttribute("theCity", cityList.get(cityListSize));
@@ -33,6 +34,11 @@ public class IndexController {
     @GetMapping("/{cityName}")
     public String getCityByCityName(@PathVariable String cityName, Model model) {
         City theCity = cityService.getCityByCityName(cityName);
+        if(!cityService.checkCityName(cityName).isEmpty()) {
+            model.addAttribute("message", cityService.checkCityName(cityName));
+            return getCityList(model);
+        }
+        if (theCity == null) throw new CityNotFoundException("");
         weatherService.updateWeatherByCity(theCity);
         List<City> cityList = cityService.getLastCities();
         model.addAttribute("theCity", theCity);
@@ -44,10 +50,6 @@ public class IndexController {
     @PostMapping("/{cityName}")
     public String postCityByCityName(@RequestParam String cityName, Model model) {
         cityName = cityName.trim();
-        if(!cityService.checkCityName(cityName).isEmpty()) {
-            model.addAttribute("message", cityService.checkCityName(cityName));
-            return getCityList(model);
-        }
         return getCityByCityName(cityName, model);
     }
 

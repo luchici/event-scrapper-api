@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home page</title>
     <link rel="stylesheet" th:href="@{/css/homepage.css}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -42,7 +45,7 @@
         <form th:action="@{/**}" method="post" class="searchbox-container">
           <input type="text" th:value="${cityName}" name="cityName" placeholder="What city?" class="search-box">
         </form>
-        <p th:text="${message}" class="special-text error-message"></pth>
+        <p th:text="${message}" class="special-text error-message"></p>
       </div>
       <div class="display-result">
         <p class="par">Weather in
