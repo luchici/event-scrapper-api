@@ -30,12 +30,10 @@ public class ApiRestController {
     public City getCityByCityName(@PathVariable String cityName){
         cityName = cityName.trim();
         if (!theCityService.checkCityName(cityName).equalsIgnoreCase("")) {
-            System.out.println("-----------"+theCityService.checkCityName(cityName)+"------------");
-            System.out.println("here11111111111111111111");
+
             throw new CityNotFoundException(theCityService.checkCityName(cityName));
         }
         else if (theCityService.getCityByCityName(cityName) == null) {
-            System.out.println("here222222222222222222222222222");
             throw new CityNotFoundException(theCityService.checkCityName(cityName));
         }
         return theCityService.getCityByCityName(cityName);

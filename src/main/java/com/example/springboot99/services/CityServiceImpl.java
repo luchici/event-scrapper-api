@@ -1,5 +1,6 @@
 package com.example.springboot99.services;
 
+import com.example.springboot99.config.NotionConfigProperties;
 import com.example.springboot99.entity.City;
 import com.example.springboot99.entity.Weather;
 import com.example.springboot99.exception.CityNotFoundException;
@@ -21,6 +22,7 @@ public class CityServiceImpl implements CityService {
 
     private CityRepository theCityRepository;
     private WeatherRepository weatherRepository;
+    private NotionConfigProperties notionConfigProperties;
 
     @PostConstruct
     public void intialUpdate(){
@@ -57,10 +59,10 @@ public class CityServiceImpl implements CityService {
         City theCity;
         Weather weather;
         if (theCityRepository.findByCityNameIgnoreCase(cityName) == null) {
-            theCity = HttpRequestOpenWeatherAPI.getTheCity(cityName);
+            theCity = HttpRequestOpenWeatherAPI.getTheCity(cityName, notionConfigProperties.openWeatherApiKey());
             if (theCity == null) return null;
             else {
-                weather = HttpRequestOpenWeatherAPI.getTheWeather(theCity);
+                weather = HttpRequestOpenWeatherAPI.getTheWeather(theCity, notionConfigProperties.openWeatherApiKey());
                 theCity.setWeather(weather);
                 weatherRepository.save(weather);
             }
@@ -68,7 +70,7 @@ public class CityServiceImpl implements CityService {
             theCity = theCityRepository.findByCityNameIgnoreCase(cityName);
             theCity.setAccessDateTime(LocalDateTime.now());
             if (!theCity.getWeather().getLocalDate().equals(LocalDate.now())) {
-                weather = HttpRequestOpenWeatherAPI.getTheWeather(theCity);
+                weather = HttpRequestOpenWeatherAPI.getTheWeather(theCity, notionConfigProperties.openWeatherApiKey());
                 theCity.setWeather(weather);
                 weatherRepository.save(weather);
             }

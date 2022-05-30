@@ -1,5 +1,6 @@
 package com.example.springboot99.controlers;
 
+import com.example.springboot99.config.NotionConfigProperties;
 import com.example.springboot99.entity.City;
 import com.example.springboot99.exception.CityNotFoundException;
 import com.example.springboot99.services.CityService;
@@ -20,6 +21,7 @@ public class IndexController {
 
     private CityService cityService;
     private WeatherService weatherService;
+    private NotionConfigProperties notionConfigProperties;
 
     @GetMapping("/")
     public String getCityList(Model model){
