@@ -1,10 +1,12 @@
 package com.example.springboot99.utility;
 
+import com.example.springboot99.config.NotionConfigProperties;
 import com.example.springboot99.entity.City;
 import com.example.springboot99.entity.Weather;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,10 +16,13 @@ import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.List;
 
+@AllArgsConstructor
 public class HttpRequestOpenWeatherAPI {
 
+    private static NotionConfigProperties notionConfigProperties;
+
 //    TODO: HIDE THE API KEY
-    private static final String API = "6cabf84a4fba39918788106bb0cea492";
+    private static final String API = notionConfigProperties.openWeatherApiKey();
     private static final ObjectMapper  mapper = new ObjectMapper();
     private static final LocalDate date = LocalDate.now();
 

@@ -1,5 +1,6 @@
 package com.example.springboot99.controlers;
 
+import com.example.springboot99.config.NotionConfigProperties;
 import com.example.springboot99.entity.City;
 import com.example.springboot99.exception.CityNotFoundException;
 import com.example.springboot99.services.CityService;
@@ -16,6 +17,13 @@ public class ApiRestController {
 
     private WeatherService theWeatherService;
     private CityService theCityService;
+
+    private NotionConfigProperties notionConfigProperties;
+    @GetMapping("/test")
+    public String test(){
+        return "1111  " + notionConfigProperties.openWeatherApiKey();
+    }
+
 
     //    GET CITY
     @GetMapping("/city/{cityName}")
